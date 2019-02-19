@@ -1,0 +1,65 @@
+body {
+   background-image: url("https://cdnb.artstation.com/p/assets/images/images/003/274/973/large/kordian-krzyzanowski-gory-fire-watch-w-kole3.jpg?1471888654");
+   font-family: arial;
+}
+
+/* All the menus used for the UI (TL/TR/B/T) */
+
+#topRightMenu {
+   position: absolute;
+   top: 0;
+   right: 0;
+   padding: 20px;
+   margin: 15px;
+   border: 2px black solid;
+}
+
+#topLeftMenu {
+   position: absolute;
+   top: 0;
+   left: 0;
+   padding: 20px;
+   margin: 15px;
+   border: 2px black solid;
+}
+
+#bottomMenu {
+   color: gray;
+   position: relative;
+   text-align: center;
+}
+
+#experienceBar {
+   width: 80%;
+   height: 8px;
+}
+
+/* Interface used for the enemy */
+#enemyInterface {
+   text-align: center;
+   margin: 275px;
+   height: 400px;
+}
+
+@keyframes upAndDown {
+   0% {bottom: 0;}
+   50% {top: 10px;}
+   100% {bottom: 0;}
+}
+
+#enemyImage {
+   position: relative;
+   margin: 50px;
+   animation-name: upAndDown;
+   animation-duration: 0.4s;
+   animation-iteration-count: infinite;
+}
+
+#enemyHealthBar {
+   width: 30%;
+   height: 8px;
+}
+
+#enemyNamePara {
+   font-size: 12px;
+}
