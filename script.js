@@ -17,6 +17,7 @@ let player = {
    currentExperience: 0,
    requiredExperience: 5,
    attackPower: 1,
+   tamingCardsDropRate: 0.7,
 }
 
 // The object used to keep all the main stats of the enemy
@@ -50,6 +51,7 @@ function killEnemy() {
    generateEnemy();
    addPlayerMoney();
    addPlayerExperience();
+   computeAllDrops();
 }
 
 // Add XP and level up until XP<XP Req,then update content in DOM
@@ -92,6 +94,19 @@ function checkForDrop(chance){
    else return false;
 }
 
+function computeAllDrops(){
+   if (checkForDrop(player.tamingCardsDropRate) == true) {
+      dropTamingCard();
+   }
+}
+
+// Item-related drop functions
+function dropTamingCard(){
+   inventory.currentTamingCards += 1;
+   tamingCardsAmountParagraph.textContent = "T Cards: " + inventory.currentTamingCards;
+}
+
+
 // Adds money in relation to the level of the enemy killed, updates the DOM
 function addPlayerMoney(){
    inventory.currentCoins += Math.floor(Math.random() * 5 + 1);
@@ -101,8 +116,6 @@ function addPlayerMoney(){
 //TESTING AREA BELOW - NOT PART OF THE CODE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 enemyImage.addEventListener("click", attackEnemy);
-
-
 
 
 
