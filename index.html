@@ -6,9 +6,10 @@
    <body>
       <!- The menu on the top right, used for stats (Attack/DPS/earningPerMinute) -->
       <div id="topRightMenu">
-         <p id="attackValueParagraph">ATK Power: 1</p>
+         <p id="attackValueParagraph">ATK Power: 7</p>
          <p id="dpsParagraph">DPS: 0</p>
          <p id="epmParagraph">Earning: 0/s</p>
+         <p id="tamingChanceParagraph">Taming Luck: 10%</p>
       </div>
       
       <!- The menu on the top left, used for items & taming cards (coins, taming cards, % of drop) -->
@@ -19,14 +20,55 @@
       </div>
       
       <!- The top part of the screen, currently only logo -->
-      <div id="topLogo"></div>
+      <div id="topMenu">
+      </div>
+      
+      <!- The item shop, in the left side of the screen -->
+      <div id="itemShop">
+         <span id="weaponShop">
+            <img id="weaponUpgradeIcon" src="icons/sword_01a.png">
+            <p>[Click DMG +]</p>
+            <p id="weaponUpgradePrice">Price: 25</p>
+            <p id="weaponUpgradeLevelParagraph">Lv. 1</p>
+         </span>
+         <span id="helmetShop">
+            <img id="helmetUpgradeIcon" src="icons/helmet_01a.png">
+            <p>[Pet DMG +]</p>
+            <p id="helmetUpgradePrice">Price: 25</p>
+            <p id="helmetUpgradeLevelParagraph">Lv. 1</p>
+         </span>
+         <span id="accessoryShop">
+            <img id="accessoryUpgradeIcon" src="icons/ring_01a.png">
+            <p>[2x Click % +]</p>
+            <p id="accessoryUpgradePrice">Price: 25</p>
+            <p id="accessoryUpgradeLevelParagraph">Lv. 1</p>
+         </span>
+         <span id="magicShop">
+            <img id="magicUpgradeIcon" src="icons/book_01a.png">
+            <p>[Taming % +]</p>
+            <p id="magicUpgradePrice">Price: 500</p>
+            <p id="magicUpgradeLevelParagraph">Lv. 1</p>
+         </span>
+         <span id="thiefShop">
+            <img id="thiefUpgradeIcon" src="icons/coin_01a.png">
+            <p>[Coin drop +]</p>
+            <p id="thiefUpgradePrice">Price: 500</p>
+            <p id="thiefUpgradeLevelParagraph">Lv. 1</p>
+         </span>
+         <span id="giftShop">
+            <img id="giftUpgradeIcon" src="icons/gift_01a.png">
+            <p>[???????]</p>
+            <p id="giftUpgradePrice">Price: 4999</p>
+            <p>Lv. 1</p>
+         </span>
+      </div>
       
       <!- The middle part of the screen, with the enemy interface -->
       <div id="enemyInterface">
          <div id="enemyVisual>">
             <img id="enemyImage" src="enemies/3_0.png">
          </div>
-         <progress id="enemyHealthBar" value="5" max="5">HP Bar</progress>
+         <progress id="enemyHealthBar" value="50" max="50">HP Bar</progress>
          <p id="enemyNameParagraph">Lv. 1 Dino</p>
       </div>
       

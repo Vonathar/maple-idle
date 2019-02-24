@@ -1,5 +1,5 @@
 body {
-   background-image: url("https://cdnb.artstation.com/p/assets/images/images/003/274/973/large/kordian-krzyzanowski-gory-fire-watch-w-kole3.jpg?1471888654");
+   background-color: pink;
    font-family: arial;
 }
 
@@ -26,7 +26,6 @@ body {
 }
 
 #bottomMenu {
-   color: gray;
    position: relative;
    text-align: center;
 }
@@ -69,4 +68,18 @@ body {
 
 #enemyNameParagraph {
    font-size: 12px;
+}
+
+#itemShop {
+   position: absolute;
+   text-align: center;
+   top: 400px;
+}
+
+#weaponShop, #helmetShop, #accessoryShop, #magicShop, #thiefShop, #giftShop {
+   text-align: center;
+   float: left;
+   border: 0.2px solid black;
+   padding: 5px;
+   margin: 2px;
 }
