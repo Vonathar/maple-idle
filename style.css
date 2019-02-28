@@ -64,12 +64,12 @@ body {
    top: 10px;
 }
 
-#nextEnemyButton, #backEnemyButton {
+#nextEnemyButton, #previousEnemyButton {
    position: relative;
    display: inline-block;
 }
 
-#backEnemyButton {
+#previousEnemyButton {
    left: 35%;
 }
 

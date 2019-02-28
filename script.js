@@ -34,6 +34,9 @@ const magicUpgradeLevelParagraph = document.querySelector("#magicUpgradeLevelPar
 const thiefUpgradeIcon = document.querySelector("#thiefUpgradeIcon");
 const thiefUpgradePriceParagraph = document.querySelector("#thiefUpgradePrice");
 const thiefUpgradeLevelParagraph = document.querySelector("#thiefUpgradeLevelParagraph");
+const nextEnemyButton = document.querySelector("#nextEnemyButton");
+const previousEnemyButton = document.querySelector("#previousEnemyButton");
+const enemiesToKillParagraph = document.querySelector("#enemiesToKillParagraph");
 
 
 
@@ -92,7 +95,7 @@ class Enemy {
       this._health = health;
       this._maxHealth = health;
       this._name = name;
-      enemyImage.src = image;
+      this._image = image;
    }
    
    die() {
@@ -103,13 +106,118 @@ class Enemy {
       player.addExperience();
       inventory.addMoney();
       inventory.computeAllDrops();
+      
+      if (currentStage._enemiesToKill > currentStage._enemiesKilled) {
+         currentStage._enemiesKilled ++;
+         enemiesToKillParagraph.textContent = "Stage " + currentStage._stageLevel + " - Killed " + currentStage._enemiesKilled + "/" + currentStage._enemiesToKill;
+      }
+      
+      if (currentStage._enemiesKilled >= currentStage._enemiesToKill) {
+         currentStage._isCompleted = true;
+         stagesArray[stagesArray.indexOf(currentStage)]._isCompleted = true;
+      }
+   }
+   
+   static next() {
+      if (enemiesArray.indexOf(enemy) < enemiesArray.length - 1) {
+         let i = 1 + enemiesArray.indexOf(enemy);
+         enemy = enemiesArray[i];
+         enemyImage.src = enemy._image;
+         enemyNameParagraph.textContent = "Lv. " + enemy._level + " " + enemy._name;
+         enemyHealthBar.value = enemy._health;
+         enemyHealthBar.max = enemy._health;
+      }
+      
+      else console.log("There are no more enemies.");
+   }
+   
+   static previous() {
+      if (enemiesArray.indexOf(enemy) > 0) {
+         let i = enemiesArray.indexOf(enemy) - 1;
+         enemy = enemiesArray[i];
+         enemyImage.src = enemy._image;
+         enemyNameParagraph.textContent = "Lv. " + enemy._level + " " + enemy._name;
+         enemyHealthBar.value = enemy._health;
+         enemyHealthBar.max = enemy._health;
+      }
+   }
+
+   
+}
+
+let enemiesArray = [
+   (new Enemy(1, 50, "Lizard", "enemies/1_0.png")),
+   (new Enemy(5, 300, "Hippo", "enemies/2_0.png")),
+   (new Enemy(10, 700, "Leo", "enemies/3_0.png")),
+   (new Enemy(15, 1500, "Draco", "enemies/4_0.png")),
+   (new Enemy(20, 2200, "Devilo", "enemies/5_0.png")),
+   (new Enemy(25, 2800, "Catso", "enemies/6_0.png")),
+];
+
+
+
+let enemy = enemiesArray[0];
+
+
+
+
+
+
+// The object of                                                         --> THE STAGE <--
+class Stage {
+   constructor (stageLevel, enemiesToKill, enemiesKilled, isCompleted) {
+      this._stageLevel = stageLevel;
+      this._enemiesToKill = enemiesToKill;
+      this._enemiesKilled = enemiesKilled;
+      this._isCompleted = isCompleted;
+   }
+   
+   static complete(stageCompleted) {
+      stageCompleted._isCompleted = true;
+      stagesArray[stagesArray.indexOf(stageCompleted)]._isCompleted = true;
+   }
+   
+   static next() {
+      if (stagesArray[stagesArray.indexOf(currentStage) + 1] != null) {
+         if (stagesArray[stagesArray.indexOf(currentStage)]._isCompleted === true) {
+            let i = stagesArray.indexOf(currentStage);
+            currentStage = stagesArray[i + 1];
+            enemiesToKillParagraph.textContent = "Stage " + currentStage._stageLevel + " - Killed " + currentStage._enemiesKilled + "/" + currentStage._enemiesToKill;
+            
+            Enemy.next();
+         }
+      }
+   }
+   
+   static previous(){
+      if (stagesArray[stagesArray.indexOf(currentStage) - 1] != null){
+         let i = stagesArray.indexOf(currentStage);
+         currentStage = stagesArray[i - 1];
+         enemiesToKillParagraph.textContent = "Stage " + currentStage._stageLevel + " - Killed " + currentStage._enemiesKilled + "/" + currentStage._enemiesToKill;
+         Enemy.previous();
+      }
    }
 }
 
-let enemies = [];
-enemies.push(new Enemy(1, 50, "Dino", "enemies/3_0.png"));
+let stagesArray = [
+   (new Stage(1, 10, 0, false)),
+   (new Stage(2, 10, 0, false)),
+   (new Stage(3, 10, 0, false)),
+   (new Stage(4, 10, 0, false)),
+   (new Stage(5, 10, 0, false)),
+   (new Stage(6, 10, 0, false)),
+];
 
-let enemy = enemies[0]; 
+let currentStage = stagesArray[0];
+
+
+
+
+
+
+
+
+
 
 
 
@@ -122,7 +230,7 @@ let inventory = {
 
    // Adds money when killing an enemy   
    addMoney() {
-      this.currentCoins += (Math.floor((Math.random() * 5 + 1) * this.coinsMultiplier));
+      this.currentCoins += (Math.floor((Math.random() * (enemy._level + 5) * 1.7) * this.coinsMultiplier));
       coinsParagraph.textContent = "Munney: " + this.currentCoins;
    },
    
@@ -275,14 +383,17 @@ accessoryUpgradeIcon.addEventListener("click", upgradeAccessory);
 magicUpgradeIcon.addEventListener("click", upgradeTamingLuck);
 thiefUpgradeIcon.addEventListener("click", upgradeCoinLuck);
 
+//Enemy event listeners
+
+nextEnemyButton.addEventListener("click", Stage.next);
+previousEnemyButton.addEventListener("click", Stage.previous);
+
 
 
 //TESTING AREA BELOW - NOT PART OF THE CODE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 function hyperAttack() {
-   for (i = 0; i <= 100; i++) {
-      player.attackEnemy();
-   }
+      enemy.die();
 }
 
 enemyImage.addEventListener("click", hyperAttack);
