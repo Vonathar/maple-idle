@@ -1,3 +1,5 @@
+**In this testing version, clicking the enemy will not ATTACK - it will KILL him instead.**
+
 Live version: https://vonathar.github.io/maple-idle/
 
 Current TO-DO: 
