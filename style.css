@@ -1,5 +1,5 @@
 body {
-   background-color: pink;
+   background-image: url("https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/BTrHt7uCiu335hjs/desert-background-simple-game-level-location-concept-hd-looping-animation_rfgqov0se_thumbnail-full01.png");
    font-family: arial;
 }
 
@@ -9,30 +9,34 @@ body {
    position: absolute;
    top: 0;
    right: 0;
-   padding: 50px;
-   margin: 15px;
+   padding: 1%;
+   margin: 1%;
    border: 2px black solid;
-   font-size: 18px;
+   font-size: 16px;
 }
 
 #topLeftMenu {
    position: absolute;
    top: 0;
    left: 0;
-   padding: 50px;
-   margin: 15px;
+   padding: 1%;
+   margin: 1%;
    border: 2px black solid;
-   font-size: 18px;
+   font-size: 16px;
 }
 
 #bottomMenu {
-   position: relative;
+   position: fixed;
    text-align: center;
+   margin: auto;
+   width: 100%;
+   bottom: 50px;
 }
 
 #experienceBar {
    width: 80%;
-   height: 8px;
+   height: 25px;
+   position: relative;
 }
 
 #currentLevelParagraph {
@@ -46,6 +50,34 @@ body {
    margin: 275px;
    height: 400px;
 }
+
+#topMenu {
+   position: absolute;
+   top: 0;
+   width: 100%;
+   height: 10%;
+}
+
+#enemiesToKillParagraph {
+   text-align: center;
+   position: relative;
+   top: 10px;
+}
+
+#nextEnemyButton, #backEnemyButton {
+   position: relative;
+   display: inline-block;
+}
+
+#backEnemyButton {
+   left: 35%;
+}
+
+#nextEnemyButton {
+   transform: rotate(180deg);
+   left: 60%;
+}
+
 
 @keyframes upAndDown {
    0% {bottom: 0;}
@@ -74,12 +106,14 @@ body {
    position: absolute;
    text-align: center;
    top: 400px;
+   width: 32%;
+   font-size: 15px;
 }
 
 #weaponShop, #helmetShop, #accessoryShop, #magicShop, #thiefShop, #giftShop {
    text-align: center;
    float: left;
    border: 0.2px solid black;
-   padding: 5px;
-   margin: 2px;
+   padding: 2px;
+   margin: 1px;
 }

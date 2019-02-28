@@ -1,44 +1,44 @@
 /* 
 
 To-do:
-      1. Import from DOM all upgrade elements (6x2);
-      2. Create a general function to upgrade a parameter in exchange of a cost
+      Add new enemies to the array following the argument list passed for the first enemy
+      Allow to player to iterate through the enemies by clicking on the back/forward arrows
 
  */
 
-// Importing from the DOM all the elements which get modified by JS
-let attackValueParagraph = document.querySelector("#attackValueParagraph");
-let dpsParagraph = document.querySelector("#dspParagraph");
-let epsParagraph = document.querySelector("#epsParagraph");
-let coinsParagraph = document.querySelector("#coinsParagraph");
-let tamingCardsAmountParagraph = document.querySelector("#tamingCardsAmountParagraph");
-let tamingCardsDropParagraph = document.querySelector("#tamingCardsDropParagraph");
-let tamingChanceParagraph = document.querySelector("#tamingChanceParagraph");
-let enemyImage = document.querySelector("#enemyImage");
-let enemyHealthBar = document.querySelector("#enemyHealthBar");
-let enemyNameParagraph = document.querySelector("#enemyNameParagraph");
-let currentLevelParagraph = document.querySelector("#currentLevelParagraph");
-let experienceBar = document.querySelector("#experienceBar");
-let weaponUpgradeIcon = document.querySelector("#weaponUpgradeIcon");
-let weaponUpgradePriceParagraph = document.querySelector("#weaponUpgradePrice");
-let weaponUpgradeLevelParagraph = document.querySelector("#weaponUpgradeLevelParagraph");
-let helmetUpgradeIcon = document.querySelector("#helmetUpgradeIcon");
-let helmetUpgradePriceParagraph = document.querySelector("#helmetUpgradePrice");
-let helmetUpgradeLevelParagraph = document.querySelector("#helmetUpgradeLevelParagraph");
-let accessoryUpgradeIcon = document.querySelector("#accessoryUpgradeIcon");
-let accessoryUpgradePriceParagraph = document.querySelector("#accessoryUpgradePrice");
-let accessoryUpgradeLevelParagraph = document.querySelector("#accessoryUpgradeLevelParagraph");
-let magicUpgradeIcon = document.querySelector("#magicUpgradeIcon");
-let magicUpgradePriceParagraph = document.querySelector("#magicUpgradePrice");
-let magicUpgradeLevelParagraph = document.querySelector("#magicUpgradeLevelParagraph");
-let thiefUpgradeIcon = document.querySelector("#thiefUpgradeIcon");
-let thiefUpgradePriceParagraph = document.querySelector("#thiefUpgradePrice");
-let thiefUpgradeLevelParagraph = document.querySelector("#thiefUpgradeLevelParagraph");
+// Importing from the DOM
+const attackValueParagraph = document.querySelector("#attackValueParagraph");
+const dpsParagraph = document.querySelector("#dspParagraph");
+const epsParagraph = document.querySelector("#epsParagraph");
+const coinsParagraph = document.querySelector("#coinsParagraph");
+const tamingCardsAmountParagraph = document.querySelector("#tamingCardsAmountParagraph");
+const tamingCardsDropParagraph = document.querySelector("#tamingCardsDropParagraph");
+const tamingChanceParagraph = document.querySelector("#tamingChanceParagraph");
+const enemyImage = document.querySelector("#enemyImage");
+const enemyHealthBar = document.querySelector("#enemyHealthBar");
+const enemyNameParagraph = document.querySelector("#enemyNameParagraph");
+const currentLevelParagraph = document.querySelector("#currentLevelParagraph");
+const experienceBar = document.querySelector("#experienceBar");
+const weaponUpgradeIcon = document.querySelector("#weaponUpgradeIcon");
+const weaponUpgradePriceParagraph = document.querySelector("#weaponUpgradePrice");
+const weaponUpgradeLevelParagraph = document.querySelector("#weaponUpgradeLevelParagraph");
+const helmetUpgradeIcon = document.querySelector("#helmetUpgradeIcon");
+const helmetUpgradePriceParagraph = document.querySelector("#helmetUpgradePrice");
+const helmetUpgradeLevelParagraph = document.querySelector("#helmetUpgradeLevelParagraph");
+const accessoryUpgradeIcon = document.querySelector("#accessoryUpgradeIcon");
+const accessoryUpgradePriceParagraph = document.querySelector("#accessoryUpgradePrice");
+const accessoryUpgradeLevelParagraph = document.querySelector("#accessoryUpgradeLevelParagraph");
+const magicUpgradeIcon = document.querySelector("#magicUpgradeIcon");
+const magicUpgradePriceParagraph = document.querySelector("#magicUpgradePrice");
+const magicUpgradeLevelParagraph = document.querySelector("#magicUpgradeLevelParagraph");
+const thiefUpgradeIcon = document.querySelector("#thiefUpgradeIcon");
+const thiefUpgradePriceParagraph = document.querySelector("#thiefUpgradePrice");
+const thiefUpgradeLevelParagraph = document.querySelector("#thiefUpgradeLevelParagraph");
 
 
 
 
-// The object used to keep all the main stats of the player
+// The object of                                                         --> THE PLAYER <--
 let player = {
    currentLevel: 1,
    currentExperience: 0,
@@ -48,6 +48,34 @@ let player = {
    tamingCardsDropRate: 0.7,
    tamingLuck: 1,
    doubleClickChance: 0,
+   
+   // Increase player level
+   levelUp() {
+      player.currentLevel += 1;
+      player.currentExperience -= player.requiredExperience;
+      player.requiredExperience += player.currentLevel * 3.3;
+      currentLevelParagraph.textContent = "Level " + player.currentLevel;
+      experienceBar.max = player.requiredExperience;
+   },
+   
+   // Add XP and level up until XP<XP Req,then update content in DOM
+   addExperience() {
+      player.currentExperience += enemy._level + (enemy._level * 1);
+      while (player.currentExperience >= player.requiredExperience) {
+         player.levelUp();
+      }
+      experienceBar.value = player.currentExperience;
+      currentLevelParagraph.textContent = "Level " + player.currentLevel;
+   },
+   
+// Remove HP from the enemy; if the enemy dies, a new one is made and the player is rewarded XP
+   attackEnemy() {
+      enemy._health -= player.attackPower;
+      enemyHealthBar.value = enemy._health;
+      if (enemy._health <= 0) {
+         enemy.die();
+      }
+   },
 }
 
 refreshStats = () => {
@@ -55,26 +83,92 @@ refreshStats = () => {
 }
 
 
-// The object used to keep all the main stats of the enemy
-let enemy = {
-   level: 1,
-   health: 50,
-   maxHealth: 50,
-   name: "Dino",
+
+
+// The object of                                                         --> THE ENEMY <--
+class Enemy {
+   constructor(level, health, name, image) {
+      this._level = level;
+      this._health = health;
+      this._maxHealth = health;
+      this._name = name;
+      enemyImage.src = image;
+   }
+   
+   die() {
+      this._health = this._maxHealth;
+      enemyHealthBar.max = this._maxHealth;
+      enemyHealthBar.value = this._health;
+      enemyNameParagraph.textContent = "Lv. " + this._level + " " + this._name;
+      player.addExperience();
+      inventory.addMoney();
+      inventory.computeAllDrops();
+   }
 }
 
-// The object used to keep all the inventory-related values
+let enemies = [];
+enemies.push(new Enemy(1, 50, "Dino", "enemies/3_0.png"));
+
+let enemy = enemies[0]; 
+
+
+
+
+// The object of                                                         --> THE INVENTORY <--
 let inventory = {
    currentTamingCards: 0,
    currentCoins: 0,
    coinsMultiplier: 1,
-}
 
-// The main functions used to alter the inventory values
-
-let refreshInventory = () => {
-   coinsParagraph.textContent = ("Munney: " + inventory.currentCoins);
+   // Adds money when killing an enemy   
+   addMoney() {
+      this.currentCoins += (Math.floor((Math.random() * 5 + 1) * this.coinsMultiplier));
+      coinsParagraph.textContent = "Munney: " + this.currentCoins;
+   },
+   
+   // Takes 1 parameter, the chance to drop (expressed in % with a max of 100), returns 'true' if the item should drop
+   checkForDrop(chance){
+      x = Math.floor(Math.random() * 101);
+      if (chance >= x) {
+         return true
+      }
+      
+      else return false;
+   },
+   
+   // Adds a taming card
+   dropTamingCard(){
+      inventory.currentTamingCards += 1;
+      tamingCardsAmountParagraph.textContent = "T Cards: " + inventory.currentTamingCards;
+   },
+   
+   // Assign a random chance to every item to drop whenever an enemy is killed
+   computeAllDrops(){
+      if (this.checkForDrop(player.tamingCardsDropRate) == true) {
+         this.dropTamingCard();
+      }
+   },
+   
+   // Updats the value of the coins/inventory values in the DOM
+   refresh() {
+      coinsParagraph.textContent = ("Munney: " + inventory.currentCoins);
+   },
 }
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
 
 let upgradeLevel = {
    weapon: 1,
@@ -97,7 +191,7 @@ let upgradeCost = {
 upgradeWeapon = () => {
    if (inventory.currentCoins >= upgradeCost.weapon) {
       inventory.currentCoins -= upgradeCost.weapon;
-      refreshInventory();
+      inventory.refresh();
       player.attackPower += upgradeLevel.weapon * 2;
       refreshStats();
       upgradeLevel.weapon += 1;
@@ -112,7 +206,7 @@ upgradeWeapon = () => {
 upgradeHelmet = () => {
    if (inventory.currentCoins >= upgradeCost.helmet) {
       inventory.currentCoins -= upgradeCost.helmet;
-      refreshInventory();
+      inventory.refresh();
       player.petDamage += upgradeLevel.helmet * 2;
       refreshStats();
       upgradeLevel.helmet += 1;
@@ -127,7 +221,7 @@ upgradeHelmet = () => {
 upgradeAccessory = () => {
    if (inventory.currentCoins >= upgradeCost.accessory) {
       inventory.currentCoins -= upgradeCost.accessory;
-      refreshInventory();
+      inventory.refresh();
       player.doubleClickChance += 0.3;
       console.log("Remember to DELETE ME!!!!!!!!!!, but, current doubleClickChance: " + player.doubleClickChance);
       refreshStats();
@@ -143,7 +237,7 @@ upgradeAccessory = () => {
 upgradeTamingLuck = () => {
    if (inventory.currentCoins >= upgradeCost.tamingLuck) {
       inventory.currentCoins -= upgradeCost.tamingLuck;
-      refreshInventory();
+      inventory.refresh();
       player.tamingLuck += 0.3;
       console.log("Remember to DELETE ME!!!!!!!!!!, but, current tamingLuck: " + player.tamingLuck);
       refreshStats();
@@ -159,7 +253,7 @@ upgradeTamingLuck = () => {
 upgradeCoinLuck = () => {
    if (inventory.currentCoins >= upgradeCost.coinLuck) {
       inventory.currentCoins -= upgradeCost.coinLuck;
-      refreshInventory();
+      inventory.refresh();
       inventory.coinsMultiplier += 0.3;
       console.log("Remember to DELETE ME!!!!!!!!!!, but, current coinsMultiplier: " + inventory.coinsMultiplier);
       refreshStats();
@@ -182,90 +276,12 @@ magicUpgradeIcon.addEventListener("click", upgradeTamingLuck);
 thiefUpgradeIcon.addEventListener("click", upgradeCoinLuck);
 
 
-// The main functions used to alter the values of the player
-
-// Increase player level
-function levelUp(){
-   player.currentLevel += 1;
-   player.currentExperience -= player.requiredExperience;
-   player.requiredExperience += player.currentLevel * 3.3;
-   currentLevelParagraph.textContent = "Level " + player.currentLevel;
-   experienceBar.max = player.requiredExperience;
-}
-
-// Series of events to happen upon killing an enemy
-
-function killEnemy() {
-   generateEnemy();
-   addPlayerMoney();
-   addPlayerExperience();
-   computeAllDrops();
-}
-
-// Add XP and level up until XP<XP Req,then update content in DOM
-function addPlayerExperience() {
-   player.currentExperience += enemy.level + (enemy.level * 1);
-   while (player.currentExperience >= player.requiredExperience) {
-      levelUp();
-   }
-      experienceBar.value = player.currentExperience;
-      currentLevelParagraph.textContent = "Level " + player.currentLevel;
-}
-
-// Remove HP from the enemy, and if the enemy dies, a new one is made and the player is rewarded XP
-function attackEnemy() {
-   enemy.health -= player.attackPower;
-   enemyHealthBar.value = enemy.health;
-   if (enemy.health <= 0) {
-      killEnemy();
-   }
-}
-
-// Enemy-related functions
-
-function generateEnemy() {
-   enemy.health = enemy.maxHealth;
-   enemyHealthBar.max = enemy.health;
-   enemyHealthBar.value = enemy.maxHealth;
-   enemyNameParagraph.textContent = "Lv. " + enemy.level + " " + enemy.name;
-}
-
-// Inventory- and drop-related functions
-
-// Takes 1 parameter, the chance to drop (expressed in % with a max of 100), returns 'true' if the item should drop
-function checkForDrop(chance){
-   x = Math.floor(Math.random() * 101);
-   if (chance >= x) {
-      return true
-   }
-   
-   else return false;
-}
-
-function computeAllDrops(){
-   if (checkForDrop(player.tamingCardsDropRate) == true) {
-      dropTamingCard();
-   }
-}
-
-// Item-related drop functions
-function dropTamingCard(){
-   inventory.currentTamingCards += 1;
-   tamingCardsAmountParagraph.textContent = "T Cards: " + inventory.currentTamingCards;
-}
-
-
-// Adds money in relation to the level of the enemy killed, updates the DOM
-function addPlayerMoney(){
-   inventory.currentCoins += (Math.floor((Math.random() * 5 + 1) * inventory.coinsMultiplier));
-   coinsParagraph.textContent = "Munney: " + inventory.currentCoins;
-}
 
 //TESTING AREA BELOW - NOT PART OF THE CODE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 function hyperAttack() {
-   for (i = 0; i <= 50; i++) {
-      killEnemy();
+   for (i = 0; i <= 100; i++) {
+      player.attackEnemy();
    }
 }
 
