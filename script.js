@@ -167,6 +167,10 @@ let enemiesArray = [
    (new Enemy(15, 1500, "Draco", "enemies/4_0.png", 20, false)),
    (new Enemy(20, 2200, "Devilo", "enemies/5_0.png", 20, false)),
    (new Enemy(25, 2800, "Catso", "enemies/6_0.png", 15, false)),
+   (new Enemy(30, 4000, "Wog", "enemies/7_0.png", 15, false)),
+   (new Enemy(35, 5000, "Snake", "enemies/8_0.png", 15, false)),
+   (new Enemy(40, 6200, "Eyeball", "enemies/9_0.png", 10, false)),
+   (new Enemy(45, 7500, "Appley", "enemies/10_0.png", 10, false)),
 ];
 
 
@@ -221,6 +225,10 @@ let stagesArray = [
    (new Stage(4, 10, 0, false)),
    (new Stage(5, 10, 0, false)),
    (new Stage(6, 10, 0, false)),
+   (new Stage(7, 10, 0, false)),
+   (new Stage(8, 10, 0, false)),
+   (new Stage(9, 10, 0, false)),
+   (new Stage(10, 10, 0, false)),
 ];
 
 let currentStage = stagesArray[0];
@@ -236,7 +244,7 @@ let inventory = {
 
    // Adds money when killing an enemy   
    addMoney() {
-      this.currentCoins += (Math.floor((Math.random() * (enemy._level + 5) * 1.7) * this.coinsMultiplier));
+      this.currentCoins += (Math.floor((Math.random() * (enemy._level) * 6.7) * this.coinsMultiplier));
       coinsParagraph.textContent = "Munney: " + this.currentCoins;
    },
    
@@ -360,6 +368,10 @@ let petsArray = [
    (new Pet("Draco", 1, false, "enemies/4_0.png", 0, 5)),
    (new Pet("Devilo", 1, false, "enemies/5_0.png", 0, 5)),
    (new Pet("Catso", 1, false, "enemies/6_0.png", 0, 5)),
+   (new Pet("Wog", 1, false, "enemies/7_0.png", 0, 5)),
+   (new Pet("Snake", 1, false, "enemies/8_0.png", 0, 5)),
+   (new Pet("Eyeball", 1, false, "enemies/9_0.png", 0, 5)),
+   (new Pet("Appley", 1, false, "enemies/10_0.png", 0, 5)),
 ];
 
 let tamedPets = [];
@@ -499,7 +511,7 @@ previousEnemyButton.addEventListener("click", Stage.previous);
 //TESTING AREA BELOW - NOT PART OF THE CODE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 function hyperAttack() {
-      for (i = 0; i < 100; i++) {
+      for (i = 0; i < 1; i++) {
          enemy.die();
       }
 }
