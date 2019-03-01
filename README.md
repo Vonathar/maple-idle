@@ -28,6 +28,6 @@ Current TO-DO:
     
   5. Overall game mechanics
   
-    5.1 Some monsters will spawn with a golden aura, making them 5x harder to kill but drop 20x the gold
+    5.1 Some monsters will spawn with a golden aura, making them 5x harder to kill but drop 20x the gold and a taming card
     5.2 Implement a drop system from enemies (each enemy drops a few items with a varying rarity)
     5.2.1 Quests will be given in each stage, to drop a set amount of items from the mob (2x easy, 1x hard)

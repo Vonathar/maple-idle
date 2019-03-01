@@ -66,14 +66,14 @@ let player = {
    levelUp() {
       player.currentLevel += 1;
       player.currentExperience -= player.requiredExperience;
-      player.requiredExperience += player.currentLevel * 3.3;
+      player.requiredExperience += player.currentLevel * 2.8;
       currentLevelParagraph.textContent = "Level " + player.currentLevel;
       experienceBar.max = player.requiredExperience;
    },
    
    // Add XP and level up until XP<XP Req,then update content in DOM
    addExperience() {
-      player.currentExperience += enemy._level + (enemy._level * 1);
+      player.currentExperience += enemy._level + (enemy._level * 2);
       while (player.currentExperience >= player.requiredExperience) {
          player.levelUp();
       }
@@ -244,7 +244,7 @@ let inventory = {
 
    // Adds money when killing an enemy   
    addMoney() {
-      this.currentCoins += (Math.floor((Math.random() * (enemy._level) * 6.7) * this.coinsMultiplier));
+      this.currentCoins += (Math.floor(((Math.random() + 1) * (enemy._level) * 6.7) * this.coinsMultiplier));
       coinsParagraph.textContent = "Munney: " + this.currentCoins;
    },
    
@@ -332,7 +332,7 @@ class Pet {
    
    static addExperience() {
       for (let i = 0; i < tamedPets.length; i++) {
-         tamedPets[i]._currentExperience += (enemy._level * 1);
+         tamedPets[i]._currentExperience += (enemy._level * 2);
          while (tamedPets[i]._currentExperience >= tamedPets[i]._experienceRequired) {
             tamedPets[i]._level ++;
             tamedPets[i]._currentExperience -= tamedPets[i]._experienceRequired;
@@ -405,9 +405,9 @@ let upgradeLevel = {
 }
 
 let upgradeCost = {
-   weapon: 25,
-   helmet: 25,
-   accessory: 25,
+   weapon: 5,
+   helmet: 5,
+   accessory: 5,
    tamingLuck: 500,
    coinLuck: 500,
 }
@@ -418,7 +418,7 @@ upgradeWeapon = () => {
    if (inventory.currentCoins >= upgradeCost.weapon) {
       inventory.currentCoins -= upgradeCost.weapon;
       inventory.refresh();
-      player.attackPower += upgradeLevel.weapon * 2;
+      player.attackPower += upgradeLevel.weapon * 5;
       refreshStats();
       upgradeLevel.weapon += 1;
       upgradeCost.weapon *= 2;
@@ -480,7 +480,7 @@ upgradeCoinLuck = () => {
    if (inventory.currentCoins >= upgradeCost.coinLuck) {
       inventory.currentCoins -= upgradeCost.coinLuck;
       inventory.refresh();
-      inventory.coinsMultiplier += 0.3;
+      inventory.coinsMultiplier += 0.9;
       console.log("Remember to DELETE ME!!!!!!!!!!, but, current coinsMultiplier: " + inventory.coinsMultiplier);
       refreshStats();
       upgradeLevel.coinLuck += 1;
@@ -516,7 +516,7 @@ function hyperAttack() {
       }
 }
 
-enemyImage.addEventListener("click", hyperAttack);
+enemyImage.addEventListener("click", player.attackEnemy);
 
 
 
