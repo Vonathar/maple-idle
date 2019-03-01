@@ -278,7 +278,7 @@ let inventory = {
 
 
 class Pet {
-   constructor(name, level, isTamed, image, currentExperience, experienceRequired = 5) {
+   constructor(name, level, isTamed, image, currentExperience, experienceRequired) {
       this._name = name;
       this._level = level;
       this._isTamed = isTamed;
@@ -323,18 +323,43 @@ class Pet {
    }
    
    static addExperience() {
-      // Write a function to add XP to every pet that has been tamed.
+      for (let i = 0; i < tamedPets.length; i++) {
+         tamedPets[i]._currentExperience += (enemy._level * 1);
+         while (tamedPets[i]._currentExperience >= tamedPets[i]._experienceRequired) {
+            tamedPets[i]._level ++;
+            tamedPets[i]._currentExperience -= tamedPets[i]._experienceRequired;
+            tamedPets[i]._experienceRequired += tamedPets[i]._level * 3.3;
+         }
+         
+         if (i == 0) {
+            petOneParagraph.textContent = "Lv. " + tamedPets[i]._level + " " + tamedPets[i]._name;
+            petOneExperienceBar.value = tamedPets[i]._currentExperience;
+            petOneExperienceBar.max = tamedPets[i]._experienceRequired;
+         }
+         
+         else if (i == 1) {
+            petTwoParagraph.textContent = "Lv. " + tamedPets[i]._level + " " + tamedPets[i]._name;
+            petTwoExperienceBar.value = tamedPets[i]._currentExperience;
+            petTwoExperienceBar.max = tamedPets[i]._experienceRequired;
+         }
+         
+         else if (i == 2) {
+            petThreeParagraph.textContent = "Lv. " + tamedPets[i]._level + " " + tamedPets[i]._name;
+            petThreeExperienceBar.value = tamedPets[i]._currentExperience;
+            petThreeExperienceBar.max = tamedPets[i]._experienceRequired;
+         }
+      }
    }
    
 }
 
 let petsArray = [
-   (new Pet("Lizard", 1, false, "enemies/1_0.png", 0)),
-   (new Pet("Hippo", 1, false, "enemies/2_0.png", 0)),
-   (new Pet("Leo", 1, false, "enemies/3_0.png", 0)),
-   (new Pet("Draco", 1, false, "enemies/4_0.png", 0)),
-   (new Pet("Devilo", 1, false, "enemies/5_0.png", 0)),
-   (new Pet("Catso", 1, false, "enemies/6_0.png", 0)),
+   (new Pet("Lizard", 1, false, "enemies/1_0.png", 0, 5)),
+   (new Pet("Hippo", 1, false, "enemies/2_0.png", 0, 5)),
+   (new Pet("Leo", 1, false, "enemies/3_0.png", 0, 5)),
+   (new Pet("Draco", 1, false, "enemies/4_0.png", 0, 5)),
+   (new Pet("Devilo", 1, false, "enemies/5_0.png", 0, 5)),
+   (new Pet("Catso", 1, false, "enemies/6_0.png", 0, 5)),
 ];
 
 let tamedPets = [];
