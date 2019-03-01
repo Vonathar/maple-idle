@@ -37,6 +37,16 @@ const thiefUpgradeLevelParagraph = document.querySelector("#thiefUpgradeLevelPar
 const nextEnemyButton = document.querySelector("#nextEnemyButton");
 const previousEnemyButton = document.querySelector("#previousEnemyButton");
 const enemiesToKillParagraph = document.querySelector("#enemiesToKillParagraph");
+const tameButton = document.querySelector("#tameButton");
+const petOneImage = document.querySelector("#petOneImage");
+const petOneParagraph = document.querySelector("#petOneParagraph");
+const petOneExperienceBar = document.querySelector("#petOneExperienceBar");
+const petTwoImage = document.querySelector("#petTwoImage");
+const petTwoParagraph = document.querySelector("#petTwoParagraph");
+const petTwoExperienceBar = document.querySelector("#petTwoExperienceBar");
+const petThreeImage = document.querySelector("#petThreeImage");
+const petThreeParagraph = document.querySelector("#petThreeParagraph");
+const petThreeExperienceBar = document.querySelector("#petThreeExperienceBar");
 
 
 
@@ -90,12 +100,14 @@ refreshStats = () => {
 
 // The object of                                                         --> THE ENEMY <--
 class Enemy {
-   constructor(level, health, name, image) {
+   constructor(level, health, name, image, tamingChance, isTamed) {
       this._level = level;
       this._health = health;
       this._maxHealth = health;
       this._name = name;
       this._image = image;
+      this._isTamed = isTamed;
+      this._tamingChance = tamingChance;
    }
    
    die() {
@@ -104,6 +116,7 @@ class Enemy {
       enemyHealthBar.value = this._health;
       enemyNameParagraph.textContent = "Lv. " + this._level + " " + this._name;
       player.addExperience();
+      Pet.addExperience();
       inventory.addMoney();
       inventory.computeAllDrops();
       
@@ -124,6 +137,7 @@ class Enemy {
          enemy = enemiesArray[i];
          enemyImage.src = enemy._image;
          enemyNameParagraph.textContent = "Lv. " + enemy._level + " " + enemy._name;
+         tamingChanceParagraph.textContent = "Taming Chance: " + Math.floor((enemy._tamingChance * player.tamingLuck))  + "%";
          enemyHealthBar.value = enemy._health;
          enemyHealthBar.max = enemy._health;
       }
@@ -137,6 +151,7 @@ class Enemy {
          enemy = enemiesArray[i];
          enemyImage.src = enemy._image;
          enemyNameParagraph.textContent = "Lv. " + enemy._level + " " + enemy._name;
+         tamingChanceParagraph.textContent = "Taming Chance: " + Math.floor((enemy._tamingChance * player.tamingLuck))  + "%";
          enemyHealthBar.value = enemy._health;
          enemyHealthBar.max = enemy._health;
       }
@@ -146,12 +161,12 @@ class Enemy {
 }
 
 let enemiesArray = [
-   (new Enemy(1, 50, "Lizard", "enemies/1_0.png")),
-   (new Enemy(5, 300, "Hippo", "enemies/2_0.png")),
-   (new Enemy(10, 700, "Leo", "enemies/3_0.png")),
-   (new Enemy(15, 1500, "Draco", "enemies/4_0.png")),
-   (new Enemy(20, 2200, "Devilo", "enemies/5_0.png")),
-   (new Enemy(25, 2800, "Catso", "enemies/6_0.png")),
+   (new Enemy(1, 50, "Lizard", "enemies/1_0.png", 40, false)),
+   (new Enemy(5, 300, "Hippo", "enemies/2_0.png", 35, false)),
+   (new Enemy(10, 700, "Leo", "enemies/3_0.png", 30, false)),
+   (new Enemy(15, 1500, "Draco", "enemies/4_0.png", 20, false)),
+   (new Enemy(20, 2200, "Devilo", "enemies/5_0.png", 20, false)),
+   (new Enemy(25, 2800, "Catso", "enemies/6_0.png", 15, false)),
 ];
 
 
@@ -213,15 +228,6 @@ let currentStage = stagesArray[0];
 
 
 
-
-
-
-
-
-
-
-
-
 // The object of                                                         --> THE INVENTORY <--
 let inventory = {
    currentTamingCards: 0,
@@ -262,6 +268,81 @@ let inventory = {
       coinsParagraph.textContent = ("Munney: " + inventory.currentCoins);
    },
 }
+
+
+
+
+
+
+// The object of                                                         --> THE PETS & TAMING
+
+
+class Pet {
+   constructor(name, level, isTamed, image, currentExperience, experienceRequired = 5) {
+      this._name = name;
+      this._level = level;
+      this._isTamed = isTamed;
+      this._image = image;
+      this._currentExperience = currentExperience;
+      this._experienceRequired = experienceRequired;
+   }
+   
+   static tame(){
+      if (enemy._isTamed == true) {
+         console.log("Pet already tamed.");
+      }
+      else if (enemy._isTamed == false) {
+            if (inventory.currentTamingCards > 0) {
+            inventory.currentTamingCards --;
+            tamingCardsAmountParagraph.textContent = "T Cards: " + inventory.currentTamingCards;
+            console.log("Attempting taming..");
+            let x = Math.floor(Math.random() * 101);
+            if (Math.floor(enemy._tamingChance * player.tamingLuck) >= x) {
+               petsArray[enemiesArray.indexOf(enemy)]._isTamed = true;
+               enemy._isTamed = true;
+               tamedPets.push(petsArray[enemiesArray.indexOf(enemy)]);
+               window.alert("Tamed!");
+               if (petOneParagraph.textContent == "Tame me!"){
+                  petOneImage.src = tamedPets[0]._image;
+                  petOneParagraph.textContent = "Lv. " + tamedPets[0]._level + " " + tamedPets[0]._name;
+               }
+               
+               else if (petTwoParagraph.textContent == "Tame me!") {
+                  petTwoImage.src = tamedPets[1]._image;
+                  petTwoParagraph.textContent = "Lv. " + tamedPets[1]._level + " " + tamedPets[1]._name;
+               }
+               
+               else if (petThreeParagraph.textContent == "Tame me!") {
+                  petThreeImage.src = tamedPets[2]._image;
+                  petThreeParagraph.textContent = "Lv. " + tamedPets[2]._level + " " + tamedPets[2]._name;
+               }
+            }
+         }
+
+      }
+   }
+   
+   static addExperience() {
+      // Write a function to add XP to every pet that has been tamed.
+   }
+   
+}
+
+let petsArray = [
+   (new Pet("Lizard", 1, false, "enemies/1_0.png", 0)),
+   (new Pet("Hippo", 1, false, "enemies/2_0.png", 0)),
+   (new Pet("Leo", 1, false, "enemies/3_0.png", 0)),
+   (new Pet("Draco", 1, false, "enemies/4_0.png", 0)),
+   (new Pet("Devilo", 1, false, "enemies/5_0.png", 0)),
+   (new Pet("Catso", 1, false, "enemies/6_0.png", 0)),
+];
+
+let tamedPets = [];
+
+tameButton.addEventListener("click", Pet.tame);
+
+
+
    
    
    
@@ -393,7 +474,9 @@ previousEnemyButton.addEventListener("click", Stage.previous);
 //TESTING AREA BELOW - NOT PART OF THE CODE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 function hyperAttack() {
-      enemy.die();
+      for (i = 0; i < 100; i++) {
+         enemy.die();
+      }
 }
 
 enemyImage.addEventListener("click", hyperAttack);

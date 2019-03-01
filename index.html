@@ -9,7 +9,7 @@
          <p id="attackValueParagraph">ATK Power: 7</p>
          <p id="dpsParagraph">DPS: 0</p>
          <p id="epmParagraph">Earning: 0/s</p>
-         <p id="tamingChanceParagraph">Taming Luck: 10%</p>
+         <p id="tamingChanceParagraph">Taming Chance: 40%</p>
       </div>
       
       <!- The menu on the top left, used for items & taming cards (coins, taming cards, % of drop) -->
@@ -75,6 +75,22 @@
          </div>
          <progress id="enemyHealthBar" value="50" max="50">HP Bar</progress>
          <p id="enemyNameParagraph">Lv. 1 Lizard</p>
+         <button id="tameButton">Attempt taming!</button>
+      </div>
+      
+      <!- The right side of the screen, with the pet interface -->
+      <div id="petInterface">
+         <div id="currentPet">
+            <img id ="petOneImage" class="petImage" src="enemies/0_0.png">
+            <p id ="petOneParagraph" class="currentPetParagraph">Tame me!</p>
+            <progress id="petOneExperienceBar" value="0" max="10">Pet One XP</progress>
+            <img id="petTwoImage" class="petImage" src="enemies/0_0.png">
+            <p id ="petTwoParagraph" class="currentPetParagraph">Tame me!</p>
+            <progress id="petTwoExperienceBar" value="0" max="10">Pet Two XP</progress>
+            <img id="petThreeImage" class="petImage" src="enemies/0_0.png">
+            <p id ="petThreeParagraph" class="currentPetParagraph">Tame me!</p>
+            <progress id="petThreeExperienceBar" value="0" max="10">Pet Three XP</progress>
+         </div>
       </div>
       
       <!- The bottom part of the screen, with XP bar and current level -->

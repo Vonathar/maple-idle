@@ -117,3 +117,26 @@ body {
    padding: 2px;
    margin: 1px;
 }
+
+#petInterface {
+   position: absolute;
+   right: 0;
+   top: 0;
+   height: 100%;
+   width: 10%;
+}
+
+#currentPet {
+   position: relative;
+   text-align: center;
+   top: 25%;
+}
+
+.petImage {
+   width: 70px;
+   height: 70px;
+}
+
+#petOneExperienceBar , #petTwoExperienceBar , #petThreeExperienceBar {
+   height: 10px;
+}
